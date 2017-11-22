@@ -1,0 +1,33 @@
+parameters:
+    web_root: /yacare
+    database_driver: pdo_mysql
+    database_host: localhost
+    database_port: 3306
+    database_name: yacare
+    database_user: yacare
+    database_password: 123456
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    debug_toolbar: true
+    debug_redirects: false
+    use_assetic_controller: true
+    locale: es
+    secret: '%env(YACARE_SECRET)%'
+    tapir.cliente: 'Municipio de Río Grande'
+    tapir.cliente.extra: null
+    tapir.eslogan: '2017 - Anio Energias renovadas'
+    munirg_ldap_contrasena: '%env(MUNIRG_LDAP_CONTRASENA)%'
+    munirg_ldap_servidor: '%env(MUNIRG_LDAP_SERVIDOR)%'
+    munirg_dbmunirg_host: '%env(MUNIRG_DBMUNIRG_HOST)%'
+    munirg_dbmunirg_usuario: '%env(MUNIRG_DBMUNIRG_USUARIO)%'
+    munirg_dbmunirg_contrasena: '%env(MUNIRG_DBMUNIRG_CONTRASENA)%'
+    munirg_dbmuni_host: '%env(MUNIRG_DBMUNI_HOST)%'
+    munirg_dbmuni_usuario: '%env(MUNIRG_DBMUNI_USUARIO)%'
+    munirg_dbmuni_contrasena: '%env(MUNIRG_DBMUNI_CONTRASENA)%'
+    rrhh_database_user: '%env(RRHH_DATABASE_USER)%'
+    rrhh_database_password: '%env(RRHH_DATABASE_PASSWORD)%'
+    google_geolocation_api_key: your_googlemaps_api_key
+    nominatim_geolocation_email: your_email_here
+    mapbox_token: your_mapbox_token_here

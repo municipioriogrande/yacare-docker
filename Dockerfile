@@ -35,6 +35,8 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     mv composer.phar /usr/bin/composer
 
 # Install MariaDB and configure it
+COPY config/MariaDB.repo /etc/yum.repos.d/MariaDB.repo
+RUN yum install MariaDB-server MariaDB-client
 
 # Install Oracle client
 
