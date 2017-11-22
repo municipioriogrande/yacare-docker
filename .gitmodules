@@ -1,0 +1,3 @@
+[submodule "yacare"]
+	path = yacare
+	url = https://github.com/municipioriogrande/yacare
