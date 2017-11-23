@@ -27,7 +27,8 @@ RUN yum install -y \
     php-oci8 \
     php-process \
     php-xml \
-    php-intl
+    php-intl \
+    php-xdebug
 
 # Install and set composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
