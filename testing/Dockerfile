@@ -36,14 +36,14 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     mv composer.phar /usr/bin/composer
 
 # Install MariaDB and configure it
-COPY config/MariaDB.repo /etc/yum.repos.d/MariaDB.repo
+COPY data/MariaDB.repo /etc/yum.repos.d/MariaDB.repo
 RUN yum install -y MariaDB-server MariaDB-client
 RUN /etc/init.d/mysql start
 
-COPY config/yacatest.sql /yacatest.sql
+COPY data/yacatest.sql /yacatest.sql
 
 # Install Oracle client
-COPY oracle-instantclient.rpm /
+COPY lib/oracle-instantclient.rpm /
 RUN yum install -y /oracle-instantclient.rpm
 ENV LD_LIBRARY_PATH /usr/lib/oracle/12.2/client64/lib
 
