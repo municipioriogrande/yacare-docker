@@ -47,17 +47,6 @@ COPY oracle-instantclient.rpm /
 RUN yum install -y /oracle-instantclient.rpm
 ENV LD_LIBRARY_PATH /usr/lib/oracle/12.2/client64/lib
 
-# Copy Yacare
-# Uncomment after debugging finished
-# COPY yacare /yacare
-# COPY config/parameters.yml /yacare/app/config/
-
-# Install dependencies
-WORKDIR /yacare
-
 # Run entrypoint script
 COPY entry-point.sh /
-# ENTRYPOINT ["sh", "/yacare/entry-point.sh"]
-
-# Run functional tests
-CMD ["php", "./vendor/codeception/codeception/codecept", "run", "functional"]
+ENTRYPOINT ["sh", "/entry-point.sh"]

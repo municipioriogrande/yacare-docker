@@ -11,4 +11,4 @@ mysql -u root yacatest < /yacatest.sql
 composer install
 php bin/console doctrine:schema:update --force --env=test
 
-# php ./vendor/codeception/codeception/codecept run functional
+exec "$@"
