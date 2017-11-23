@@ -43,6 +43,9 @@ RUN /etc/init.d/mysql start
 COPY config/yacatest.sql /yacatest.sql
 
 # Install Oracle client
+COPY oracle-instantclient.rpm /
+RUN yum install -y /oracle-instantclient.rpm
+ENV LD_LIBRARY_PATH /usr/lib/oracle/12.2/client64/lib
 
 # Copy Yacare
 # Uncomment after debugging finished
