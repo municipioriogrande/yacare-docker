@@ -1,3 +1,5 @@
+#!/bin/sh
+
 docker run --rm -it \
     -e YACARE_SECRET=${YACARE_SECRET} \
     -e MUNIRG_LDAP_CONTRASENA=${MUNIRG_LDAP_CONTRASENA} \
@@ -10,4 +12,5 @@ docker run --rm -it \
     -e MUNIRG_DBMUNI_CONTRASENA=${MUNIRG_DBMUNI_CONTRASENA} \
     -e RRHH_DATABASE_USER=${RRHH_DATABASE_USER} \
     -e RRHH_DATABASE_PASSWORD=${RRHH_DATABASE_PASSWORD} \
+    -v ${PWD}/yacare:/yacare \
     yacare:testing /bin/bash

@@ -26,7 +26,8 @@ RUN yum install -y \
     php-mbstring \
     php-oci8 \
     php-process \
-    php-xml    
+    php-xml \
+    php-intl
 
 # Install and set composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
@@ -39,20 +40,21 @@ COPY config/MariaDB.repo /etc/yum.repos.d/MariaDB.repo
 RUN yum install -y MariaDB-server MariaDB-client
 RUN /etc/init.d/mysql start
 
-COPY config/yacatest.sql yacatest.sql
+COPY config/yacatest.sql /yacatest.sql
 
 # Install Oracle client
 
 # Copy Yacare
-COPY yacare /yacare
-COPY config/parameters.yml /yacare/app/config/
+# Uncomment after debugging finished
+# COPY yacare /yacare
+# COPY config/parameters.yml /yacare/app/config/
 
 # Install dependencies
 WORKDIR /yacare
 
 # Run entrypoint script
-COPY entry-point.sh /yacare
-ENTRYPOINT ["sh", "/yacare/entry-point.sh"]
+COPY entry-point.sh /
+# ENTRYPOINT ["sh", "/yacare/entry-point.sh"]
 
 # Run functional tests
 CMD ["php", "./vendor/codeception/codeception/codecept", "run", "functional"]
