@@ -1,7 +1,7 @@
 # Yacare
 > Testing
 
-Este repo contiene todo lo necesario para correr code coverage de Yacare en un container Docker.
+Este repo contiene lo necesario para generar las imagenes de Docker para el proyecto Yacare.
 
 ## Modo de uso
 
