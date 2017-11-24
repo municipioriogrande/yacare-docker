@@ -9,6 +9,7 @@ GRANT ALL PRIVILEGES ON yacatest.* TO yacatest@'localhost' IDENTIFIED BY '123456
 EOF
 mysql -u root yacatest < /yacatest.sql
 cd /yacare
+mv /parameters.yml app/config
 composer install
 php bin/console doctrine:schema:update --force --env=test
 

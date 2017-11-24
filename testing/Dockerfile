@@ -43,9 +43,12 @@ RUN /etc/init.d/mysql start
 
 COPY data/yacatest.sql /yacatest.sql
 
+# Copy parameters.yml
+COPY data/parameters.yml /
+
 # Install Oracle client
-COPY lib/oracle-instantclient.rpm /
-RUN yum install -y /oracle-instantclient.rpm
+RUN curl https://s3-sa-east-1.amazonaws.com/munirg-yacare/oracle-instantclient.rpm --output /oracle-instantclient.rpm && \
+    yum install -y /oracle-instantclient.rpm
 ENV LD_LIBRARY_PATH /usr/lib/oracle/12.2/client64/lib
 
 # Run entrypoint script
