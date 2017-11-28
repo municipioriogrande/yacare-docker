@@ -1,10 +1,10 @@
 parameters:
     web_root: /yacare
     database_driver: pdo_mysql
-    database_host: localhost
+    database_host: db
     database_port: 3306
-    database_name: yacare
-    database_user: yacare
+    database_name: yacadev
+    database_user: yacadev
     database_password: 123456
     mailer_transport: smtp
     mailer_host: 127.0.0.1

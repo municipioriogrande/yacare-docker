@@ -1,16 +1,3 @@
 #!/bin/sh
 
-docker run --rm -it \
-    -e YACARE_SECRET=${YACARE_SECRET} \
-    -e MUNIRG_LDAP_CONTRASENA=${MUNIRG_LDAP_CONTRASENA} \
-    -e MUNIRG_LDAP_SERVIDOR=${MUNIRG_LDAP_SERVIDOR} \
-    -e MUNIRG_DBMUNIRG_HOST=${MUNIRG_DBMUNIRG_HOST} \
-    -e MUNIRG_DBMUNIRG_USUARIO=${MUNIRG_DBMUNIRG_USUARIO} \
-    -e MUNIRG_DBMUNIRG_CONTRASENA=${MUNIRG_DBMUNIRG_CONTRASENA} \
-    -e MUNIRG_DBMUNI_HOST=${MUNIRG_DBMUNI_HOST} \
-    -e MUNIRG_DBMUNI_USUARIO=${MUNIRG_DBMUNI_USUARIO} \
-    -e MUNIRG_DBMUNI_CONTRASENA=${MUNIRG_DBMUNI_CONTRASENA} \
-    -e RRHH_DATABASE_USER=${RRHH_DATABASE_USER} \
-    -e RRHH_DATABASE_PASSWORD=${RRHH_DATABASE_PASSWORD} \
-    -v ${PWD}/../yacare:/yacare \
-    yacare:testing php ./vendor/codeception/codeception/codecept run
+docker-compose run --rm yacare php /yacare/vendor/codeception/codeception/codecept run

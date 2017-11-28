@@ -1,0 +1,30 @@
+version: '3.1'
+services:
+  yacare:
+    image: yacare:testing
+    volumes:
+      - ../yacare/:/yacare/
+    depends_on:
+      - db
+    command: /bin/sh
+    environment:
+      - YACARE_SECRET=${YACARE_SECRET}
+      - MUNIRG_LDAP_CONTRASENA=${MUNIRG_LDAP_CONTRASENA}
+      - MUNIRG_LDAP_SERVIDOR=${MUNIRG_LDAP_SERVIDOR}
+      - MUNIRG_DBMUNIRG_HOST=${MUNIRG_DBMUNIRG_HOST}
+      - MUNIRG_DBMUNIRG_USUARIO=${MUNIRG_DBMUNIRG_USUARIO}
+      - MUNIRG_DBMUNIRG_CONTRASENA=${MUNIRG_DBMUNIRG_CONTRASENA}
+      - MUNIRG_DBMUNI_HOST=${MUNIRG_DBMUNI_HOST}
+      - MUNIRG_DBMUNI_USUARIO=${MUNIRG_DBMUNI_USUARIO}
+      - MUNIRG_DBMUNI_CONTRASENA=${MUNIRG_DBMUNI_CONTRASENA}
+      - RRHH_DATABASE_USER=${RRHH_DATABASE_USER}
+      - RRHH_DATABASE_PASSWORD=${RRHH_DATABASE_PASSWORD}
+  db:
+    image: mariadb:10.2
+    volumes:
+      - ./data/:/docker-entrypoint-initdb.d/
+    environment:
+      - MYSQL_USER=yacatest
+      - MYSQL_PASSWORD=123456
+      - MYSQL_DATABASE=yacatest
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes

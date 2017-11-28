@@ -36,11 +36,6 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     php -r "unlink('composer-setup.php');" && \
     mv composer.phar /usr/bin/composer
 
-# Install MariaDB and configure it
-COPY data/MariaDB.repo /etc/yum.repos.d/MariaDB.repo
-RUN yum install -y MariaDB-server MariaDB-client
-RUN /etc/init.d/mysql start
-
 COPY data/yacatest.sql /yacatest.sql
 
 # Copy parameters.yml
