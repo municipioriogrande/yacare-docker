@@ -13,4 +13,4 @@ docker run --rm -it \
     -e RRHH_DATABASE_USER=${RRHH_DATABASE_USER} \
     -e RRHH_DATABASE_PASSWORD=${RRHH_DATABASE_PASSWORD} \
     -v ${PWD}/../yacare:/yacare \
-    yacare:testing php ./vendor/codeception/codeception/codecept run --coverage-html
+    yacare:testing php ./vendor/codeception/codeception/codecept run
