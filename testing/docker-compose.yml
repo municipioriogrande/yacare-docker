@@ -4,6 +4,7 @@ services:
     image: yacare:testing
     volumes:
       - ../yacare/:/yacare/
+    tty: true
     depends_on:
       - db
     command: /bin/sh
