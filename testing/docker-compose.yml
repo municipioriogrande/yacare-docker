@@ -1,9 +1,9 @@
 version: '3.1'
 services:
   yacare:
-    image: carlosafrias/yacare:testing
+    image: carlosafrias/yacare:testing-1.0
     volumes:
-      - ../yacare/:/yacare/
+      - ../yacare/:/home/test/yacare/
     tty: true
     depends_on:
       - db
@@ -20,6 +20,7 @@ services:
       - MUNIRG_DBMUNI_CONTRASENA=${MUNIRG_DBMUNI_CONTRASENA}
       - RRHH_DATABASE_USER=${RRHH_DATABASE_USER}
       - RRHH_DATABASE_PASSWORD=${RRHH_DATABASE_PASSWORD}
+      - SYMFONY_ENV=test
   db:
     image: mariadb:10.2
     volumes:

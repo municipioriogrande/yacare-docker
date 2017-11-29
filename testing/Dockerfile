@@ -36,11 +36,6 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     php -r "unlink('composer-setup.php');" && \
     mv composer.phar /usr/bin/composer
 
-COPY data/yacatest.sql /yacatest.sql
-
-# Copy parameters.yml
-COPY data/parameters.yml /
-
 # Configure PHP to allocate more memory and longer execution time
 RUN sed -i -e '/max_execution_time = /s/30/6000/g' /etc/php.ini
 RUN sed -i -e '/max_input_time = /s/60/12000/g' /etc/php.ini
@@ -51,6 +46,15 @@ RUN curl https://s3-sa-east-1.amazonaws.com/munirg-yacare/oracle-instantclient.r
     yum install -y /oracle-instantclient.rpm
 ENV LD_LIBRARY_PATH /usr/lib/oracle/12.2/client64/lib
 
+# This allows to remove whatever folder has been created within de container from the host, after container
+# has run tests.
+RUN groupadd docker
+RUN adduser -g docker test
+USER test
+
+# Copy parameters.yml
+COPY data/parameters.yml /home/test/
+
 # Run entrypoint script
-COPY entry-point.sh /
-ENTRYPOINT ["sh", "/entry-point.sh"]
+COPY entry-point.sh /home/test
+ENTRYPOINT ["sh", "/home/test/entry-point.sh"]
