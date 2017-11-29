@@ -14,6 +14,11 @@ RUN yum install -y yum-utils && \
 # Install misc dependencies
 RUN yum install -y unzip
 
+# Install Oracle client
+RUN curl https://s3-sa-east-1.amazonaws.com/munirg-yacare/oracle-instantclient.rpm --output /oracle-instantclient.rpm && \
+    yum install -y /oracle-instantclient.rpm
+ENV LD_LIBRARY_PATH /usr/lib/oracle/12.2/client64/lib
+
 # Install PHP and PHP extensions
 RUN yum install -y \
     php \
@@ -40,11 +45,6 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 RUN sed -i -e '/max_execution_time = /s/30/6000/g' /etc/php.ini
 RUN sed -i -e '/max_input_time = /s/60/12000/g' /etc/php.ini
 RUN sed -i -e '/memory_limit = /s/128M/2048M/g' /etc/php.ini
-
-# Install Oracle client
-RUN curl https://s3-sa-east-1.amazonaws.com/munirg-yacare/oracle-instantclient.rpm --output /oracle-instantclient.rpm && \
-    yum install -y /oracle-instantclient.rpm
-ENV LD_LIBRARY_PATH /usr/lib/oracle/12.2/client64/lib
 
 # This allows to remove whatever folder has been created within de container from the host, after container
 # has run tests.
