@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   yacare:
-    image: yacare:testing
+    image: carlosafrias/yacare:testing
     volumes:
       - ../yacare/:/yacare/
     tty: true
