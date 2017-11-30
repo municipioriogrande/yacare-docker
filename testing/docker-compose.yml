@@ -7,7 +7,6 @@ services:
     tty: true
     depends_on:
       - db
-    command: /bin/sh
     environment:
       - YACARE_SECRET=${YACARE_SECRET}
       - MUNIRG_LDAP_CONTRASENA=${MUNIRG_LDAP_CONTRASENA}

@@ -18,4 +18,8 @@ COPY data/parameters.yml /home/test/
 
 # Run entrypoint script
 COPY entry-point.sh /home/test
-ENTRYPOINT ["sh", "/home/test/entry-point.sh"]
+ENTRYPOINT ["sh", "/home/test/entry-point.sh", "--"]
+
+EXPOSE 8000
+
+CMD ["php", "bin/console", "server:start"]
