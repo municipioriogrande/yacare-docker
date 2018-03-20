@@ -4,7 +4,9 @@ services:
     image: carlosafrias/yacare:testing
     volumes:
       - ../yacare/:/home/test/yacare/
+      - composer-cache:/home/test/.composer/cache/files
     tty: true
+    user: test
     depends_on:
       - db
     environment:
@@ -23,9 +25,12 @@ services:
   db:
     image: mariadb:10.2
     volumes:
-      - ./data/:/docker-entrypoint-initdb.d/
+      - ../yacare/tests/_data/db/:/docker-entrypoint-initdb.d/
     environment:
       - MYSQL_USER=yacatest
       - MYSQL_PASSWORD=123456
       - MYSQL_DATABASE=yacatest
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+
+volumes:
+  composer-cache:

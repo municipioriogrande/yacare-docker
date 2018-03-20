@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker-compose run --rm yacare php /home/test/yacare/vendor/codeception/codeception/codecept run
+docker-compose -p yacare-testing run --rm yacare php /home/test/yacare/vendor/codeception/codeception/codecept run

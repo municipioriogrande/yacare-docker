@@ -13,6 +13,11 @@ RUN groupadd docker
 RUN adduser -g docker test
 USER test
 
+# Create folder for caching composer files
+RUN mkdir /home/test/.composer && \
+    mkdir /home/test/.composer/cache && \
+    mkdir /home/test/.composer/cache/files
+
 # Copy parameters.yml
 COPY data/parameters.yml /home/test/
 
