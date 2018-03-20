@@ -22,4 +22,4 @@ ENTRYPOINT ["sh", "/home/test/entry-point.sh", "--"]
 
 EXPOSE 8000
 
-CMD ["php", "bin/console", "server:start"]
+CMD ["php", "bin/console", "server:run"]

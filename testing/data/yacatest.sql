@@ -1,8 +1,8 @@
--- MySQL dump 10.16  Distrib 10.2.9-MariaDB, for Linux (x86_64)
+-- MySQL dump 10.16  Distrib 10.2.13-MariaDB, for Linux (x86_64)
 --
 -- Host: localhost    Database: yacatest
 -- ------------------------------------------------------
--- Server version	10.2.9-MariaDB
+-- Server version	10.2.13-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -70,7 +70,7 @@ CREATE TABLE `Administracion_Seguimiento` (
   KEY `IDX_33DB0C7D1825CE09` (`PersonaRecibe_id`),
   KEY `IDX_33DB0C7D1931095` (`DepartamentoDestino_id`),
   CONSTRAINT `FK_33DB0C7D1825CE09` FOREIGN KEY (`PersonaRecibe_id`) REFERENCES `Base_Persona` (`id`),
-  CONSTRAINT `FK_33DB0C7D1931095` FOREIGN KEY (`DepartamentoDestino_id`) REFERENCES `Organizacion_Departamento` (`id`),
+  CONSTRAINT `FK_33DB0C7D1931095` FOREIGN KEY (`DepartamentoDestino_id`) REFERENCES `Rrhh_Departamento` (`id`),
   CONSTRAINT `FK_33DB0C7D7665D315` FOREIGN KEY (`PersonaEnvia_id`) REFERENCES `Base_Persona` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -99,7 +99,7 @@ CREATE TABLE `Administracion_SeguimientoParam` (
   `DepartamentoInicial_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_5B1877AAA9DFB264` (`DepartamentoInicial_id`),
-  CONSTRAINT `FK_5B1877AAA9DFB264` FOREIGN KEY (`DepartamentoInicial_id`) REFERENCES `Organizacion_Departamento` (`id`)
+  CONSTRAINT `FK_5B1877AAA9DFB264` FOREIGN KEY (`DepartamentoInicial_id`) REFERENCES `Rrhh_Departamento` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -125,7 +125,7 @@ CREATE TABLE `Administracion_SeguimientoParam_Departamento` (
   PRIMARY KEY (`seguimientoparam_id`,`departamento_id`),
   KEY `IDX_2ED616348FAAA5FE` (`seguimientoparam_id`),
   KEY `IDX_2ED616345A91C08D` (`departamento_id`),
-  CONSTRAINT `FK_2ED616345A91C08D` FOREIGN KEY (`departamento_id`) REFERENCES `Organizacion_Departamento` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_2ED616345A91C08D` FOREIGN KEY (`departamento_id`) REFERENCES `Rrhh_Departamento` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_2ED616348FAAA5FE` FOREIGN KEY (`seguimientoparam_id`) REFERENCES `Administracion_SeguimientoParam` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -179,7 +179,7 @@ CREATE TABLE `Base_Adjunto` (
   `EntidadTipo` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `EntidadId` int(11) NOT NULL,
   `Carpeta` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `TipoMime` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `TipoMime` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Tamano` int(11) NOT NULL,
   `Token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `Optimizado` tinyint(1) NOT NULL,
@@ -191,6 +191,7 @@ CREATE TABLE `Base_Adjunto` (
   `Persona_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_9B369730BAA58E69` (`Persona_id`),
+  KEY `Base_Adjunto_EntidadTipo_EntidadId_Suprimido` (`EntidadTipo`,`EntidadId`,`Suprimido`),
   CONSTRAINT `FK_9B369730BAA58E69` FOREIGN KEY (`Persona_id`) REFERENCES `Base_Persona` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -224,7 +225,7 @@ CREATE TABLE `Base_Auditoria` (
   KEY `IDX_53F2DF6B9465404E` (`Usuario_id`),
   KEY `Base_Auditoria_ElementoTipo` (`ElementoTipo`),
   CONSTRAINT `FK_53F2DF6B9465404E` FOREIGN KEY (`Usuario_id`) REFERENCES `Base_Persona` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8545 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=341275 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -508,7 +509,7 @@ CREATE TABLE `Base_Persona` (
   KEY `Base_Persona_NombreVisible` (`NombreVisible`),
   KEY `Base_Persona_Tg06100Id` (`Tg06100Id`),
   CONSTRAINT `FK_B26FED9B9B9EC5A` FOREIGN KEY (`Pais_id`) REFERENCES `Base_Pais` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3293 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=117486 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -517,7 +518,6 @@ CREATE TABLE `Base_Persona` (
 
 LOCK TABLES `Base_Persona` WRITE;
 /*!40000 ALTER TABLE `Base_Persona` DISABLE KEYS */;
-INSERT INTO `Base_Persona` VALUES (1,'Testing','Testing','Testing Persona','test','1232456','123456','lasdkjflajskdhwqksa54654654',NULL,1,'123456',NULL,NULL,0,NULL,0,NULL,NULL,0,0,NULL,NULL,NULL,1,0,NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `Base_Persona` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -541,7 +541,7 @@ CREATE TABLE `Base_PersonaGrupo` (
   PRIMARY KEY (`id`),
   KEY `IDX_5A747B14F08B48D3` (`Parent_id`),
   CONSTRAINT `FK_5A747B14F08B48D3` FOREIGN KEY (`Parent_id`) REFERENCES `Base_PersonaGrupo` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -570,7 +570,7 @@ CREATE TABLE `Base_PersonaRol` (
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=613 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21008 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -879,7 +879,7 @@ CREATE TABLE `Catastro_Calle` (
   `UbicacionFecha` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `Catastro_Calle_Nombre` (`Nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=1306 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED;
+) ENGINE=InnoDB AUTO_INCREMENT=6486 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -938,7 +938,7 @@ CREATE TABLE `Catastro_Partida` (
   CONSTRAINT `FK_2B319EF224A57A5` FOREIGN KEY (`DomicilioCalle_id`) REFERENCES `Catastro_Calle` (`id`),
   CONSTRAINT `FK_2B319EF2B6ADFCB4` FOREIGN KEY (`Titular_id`) REFERENCES `Base_Persona` (`id`),
   CONSTRAINT `FK_2B319EF2DFF39160` FOREIGN KEY (`Zona_id`) REFERENCES `Catastro_Zona` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=429 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12554 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1177,7 +1177,7 @@ CREATE TABLE `Comercio_Actividad` (
   PRIMARY KEY (`id`),
   KEY `IDX_AC3F31F38CEEC9FB` (`ParentNode_id`),
   CONSTRAINT `FK_AC3F31F38CEEC9FB` FOREIGN KEY (`ParentNode_id`) REFERENCES `Comercio_Actividad` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=169 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1397,7 +1397,7 @@ CREATE TABLE `Comercio_Comercio` (
   CONSTRAINT `FK_38ED51F9B6ADFCB4` FOREIGN KEY (`Titular_id`) REFERENCES `Base_Persona` (`id`),
   CONSTRAINT `FK_38ED51F9B9F1798E` FOREIGN KEY (`Apoderado_id`) REFERENCES `Base_Persona` (`id`),
   CONSTRAINT `FK_38ED51F9CE60DD23` FOREIGN KEY (`Apoderado2_id`) REFERENCES `Base_Persona` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2142 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1482,7 +1482,7 @@ CREATE TABLE `Comercio_Entrada` (
   PRIMARY KEY (`id`),
   KEY `IDX_6DB1327D17DA15F9` (`espectaculo_id`),
   CONSTRAINT `FK_6DB1327D17DA15F9` FOREIGN KEY (`espectaculo_id`) REFERENCES `Comercio_EspectaculoPublico` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2140 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1529,7 +1529,7 @@ CREATE TABLE `Comercio_EspectaculoPublico` (
   CONSTRAINT `FK_293BCA7024A57A5` FOREIGN KEY (`DomicilioCalle_id`) REFERENCES `Catastro_Calle` (`id`),
   CONSTRAINT `FK_293BCA709EA1E5AA` FOREIGN KEY (`Responsable_id`) REFERENCES `Base_Persona` (`id`),
   CONSTRAINT `FK_293BCA70C10C725F` FOREIGN KEY (`Solicitante_id`) REFERENCES `Base_Persona` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2804 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1560,7 +1560,7 @@ CREATE TABLE `Comercio_GrupoSoporte` (
   PRIMARY KEY (`id`),
   KEY `IDX_F94393B024A57A5` (`DomicilioCalle_id`),
   CONSTRAINT `FK_F94393B024A57A5` FOREIGN KEY (`DomicilioCalle_id`) REFERENCES `Catastro_Calle` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2633 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1600,7 +1600,7 @@ CREATE TABLE `Comercio_LibretaSanitaria` (
   KEY `IDX_9244EADDB6ADFCB4` (`Titular_id`),
   CONSTRAINT `FK_9244EADDAA160B6E` FOREIGN KEY (`Comercio_id`) REFERENCES `Comercio_Comercio` (`id`),
   CONSTRAINT `FK_9244EADDB6ADFCB4` FOREIGN KEY (`Titular_id`) REFERENCES `Base_Persona` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=721 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14467 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1650,7 +1650,7 @@ CREATE TABLE `Comercio_Local` (
   CONSTRAINT `FK_67B769124A57A5` FOREIGN KEY (`DomicilioCalle_id`) REFERENCES `Catastro_Calle` (`id`),
   CONSTRAINT `FK_67B7691A3B2982C` FOREIGN KEY (`DepositoClase_id`) REFERENCES `Comercio_DepositoClase` (`id`),
   CONSTRAINT `FK_67B7691BE071A57` FOREIGN KEY (`Partida_id`) REFERENCES `Catastro_Partida` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=167 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1703,6 +1703,7 @@ CREATE TABLE `Comercio_TramiteHabilitacion` (
   `Apoderado2_id` int(11) DEFAULT NULL,
   `Local_id` int(11) DEFAULT NULL,
   `ActividadPrincipal_id` int(11) DEFAULT NULL,
+  `ProvisorioHasta` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_60F24FED451EAD33` (`UltimoSeguimiento_id`),
   KEY `IDX_60F24FEDAA160B6E` (`Comercio_id`),
@@ -1785,7 +1786,7 @@ CREATE TABLE `Compras_Licitacion` (
   `Departamento_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_F2C1E1D3D254FE13` (`Departamento_id`),
-  CONSTRAINT `FK_F2C1E1D3D254FE13` FOREIGN KEY (`Departamento_id`) REFERENCES `Organizacion_Departamento` (`id`)
+  CONSTRAINT `FK_F2C1E1D3D254FE13` FOREIGN KEY (`Departamento_id`) REFERENCES `Rrhh_Departamento` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1843,7 +1844,7 @@ CREATE TABLE `Expedientes_Expediente` (
   `Ubicacion_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_8DB67B284FD68210` (`Ubicacion_id`),
-  CONSTRAINT `FK_8DB67B284FD68210` FOREIGN KEY (`Ubicacion_id`) REFERENCES `Organizacion_Departamento` (`id`)
+  CONSTRAINT `FK_8DB67B284FD68210` FOREIGN KEY (`Ubicacion_id`) REFERENCES `Rrhh_Departamento` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1882,7 +1883,7 @@ CREATE TABLE `Inspeccion_Acta` (
   KEY `IDX_53ED0A3B8AA93BD4` (`FuncionarioPrincipal_id`),
   CONSTRAINT `FK_53ED0A3B8AA93BD4` FOREIGN KEY (`FuncionarioPrincipal_id`) REFERENCES `Base_Persona` (`id`),
   CONSTRAINT `FK_53ED0A3BC6972C2` FOREIGN KEY (`ActaTipo_id`) REFERENCES `Inspeccion_ActaTipo` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=414 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12270 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1945,8 +1946,8 @@ CREATE TABLE `Inspeccion_ActaTipo` (
   `Departamento_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_E310C5E0D254FE13` (`Departamento_id`),
-  CONSTRAINT `FK_E310C5E0D254FE13` FOREIGN KEY (`Departamento_id`) REFERENCES `Organizacion_Departamento` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=415 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  CONSTRAINT `FK_E310C5E0D254FE13` FOREIGN KEY (`Departamento_id`) REFERENCES `Rrhh_Departamento` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12271 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2192,7 +2193,7 @@ CREATE TABLE `Nomina_Dispositivo` (
   KEY `IDX_E21350F7554483A6` (`Encargado_id`),
   KEY `IDX_E21350F7D254FE13` (`Departamento_id`),
   CONSTRAINT `FK_E21350F7554483A6` FOREIGN KEY (`Encargado_id`) REFERENCES `Base_Persona` (`id`),
-  CONSTRAINT `FK_E21350F7D254FE13` FOREIGN KEY (`Departamento_id`) REFERENCES `Organizacion_Departamento` (`id`)
+  CONSTRAINT `FK_E21350F7D254FE13` FOREIGN KEY (`Departamento_id`) REFERENCES `Rrhh_Departamento` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2766,48 +2767,6 @@ LOCK TABLES `ObrasSanitarias_TramiteCatSa` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `Organizacion_Departamento`
---
-
-DROP TABLE IF EXISTS `Organizacion_Departamento`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Organizacion_Departamento` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `Rango` int(11) DEFAULT NULL,
-  `Codigo` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `NombreOriginal` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `HaceParteDiario` tinyint(1) NOT NULL,
-  `CodigoPayroll` int(11) NOT NULL,
-  `Nombre` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `Version` int(11) NOT NULL DEFAULT 1,
-  `Suprimido` tinyint(1) NOT NULL,
-  `ImportSrc` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ImportId` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `ImportedAt` datetime DEFAULT NULL,
-  `MaterializedPath` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `createdAt` datetime DEFAULT NULL,
-  `updatedAt` datetime DEFAULT NULL,
-  `ParentNode_id` int(11) DEFAULT NULL,
-  `Secretaria` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `Direccion` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `ImportSrcId` (`ImportSrc`,`ImportId`),
-  KEY `Organizacion_Departamento_ParentNode_id` (`ParentNode_id`),
-  CONSTRAINT `FK_18DF13E98CEEC9FB` FOREIGN KEY (`ParentNode_id`) REFERENCES `Organizacion_Departamento` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=923 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Organizacion_Departamento`
---
-
-LOCK TABLES `Organizacion_Departamento` WRITE;
-/*!40000 ALTER TABLE `Organizacion_Departamento` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Organizacion_Departamento` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `Requerimientos_Categoria`
 --
 
@@ -3050,12 +3009,11 @@ CREATE TABLE `Rrhh_Agente` (
   `FechaCertificadoBuenaConducta` date DEFAULT NULL,
   `FechaCertificadoAntecedentesPenales` date DEFAULT NULL,
   `FechaCertificadoDomicilio` date DEFAULT NULL,
-  `ApareceEnParte` tinyint(1) DEFAULT NULL,
+  `ApareceEnParte` tinyint(1) NOT NULL,
   `ControlaHorario` tinyint(1) DEFAULT NULL,
   `MarcaEnReloj` tinyint(1) DEFAULT NULL,
   `NumeroCuentaBanco` int(11) DEFAULT NULL,
   `CBUCuentaAgente` varchar(23) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `BajaFechaContrato` date DEFAULT NULL,
   `BajaDecreto` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `HorarioIngreso` time DEFAULT NULL,
   `HorarioSalida` time DEFAULT NULL,
@@ -3073,25 +3031,27 @@ CREATE TABLE `Rrhh_Agente` (
   `Departamento_id` int(11) DEFAULT NULL,
   `DepartamentoParte_id` int(11) DEFAULT NULL,
   `Cargo_id` int(11) DEFAULT NULL,
-  `SectorParteDiario_id` int(11) DEFAULT NULL,
   `Banco_id` int(11) DEFAULT NULL,
   `DigitoVerificador` int(11) DEFAULT NULL,
   `DireccionEnGestion` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `FechaFinContrato` date DEFAULT NULL,
+  `ConvenioOsm` tinyint(1) NOT NULL,
+  `EntePerteneciente` smallint(6) NOT NULL,
+  `TipoCategoriaOsm` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `Imagen` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `ImportSrcId` (`ImportSrc`,`ImportId`),
   KEY `IDX_5FED3BEABAA58E69` (`Persona_id`),
   KEY `IDX_5FED3BEAD254FE13` (`Departamento_id`),
   KEY `IDX_5FED3BEAF98ABA7B` (`DepartamentoParte_id`),
   KEY `IDX_5FED3BEA784CA1D6` (`Cargo_id`),
-  KEY `IDX_5FED3BEA2F7862DF` (`SectorParteDiario_id`),
   KEY `IDX_5FED3BEA3572C568` (`Banco_id`),
-  CONSTRAINT `FK_5FED3BEA2F7862DF` FOREIGN KEY (`SectorParteDiario_id`) REFERENCES `Organizacion_Departamento` (`id`),
   CONSTRAINT `FK_5FED3BEA3572C568` FOREIGN KEY (`Banco_id`) REFERENCES `Base_Banco` (`id`),
   CONSTRAINT `FK_5FED3BEA784CA1D6` FOREIGN KEY (`Cargo_id`) REFERENCES `Rrhh_Cargo` (`id`),
   CONSTRAINT `FK_5FED3BEABAA58E69` FOREIGN KEY (`Persona_id`) REFERENCES `Base_Persona` (`id`),
-  CONSTRAINT `FK_5FED3BEAD254FE13` FOREIGN KEY (`Departamento_id`) REFERENCES `Organizacion_Departamento` (`id`),
-  CONSTRAINT `FK_5FED3BEAF98ABA7B` FOREIGN KEY (`DepartamentoParte_id`) REFERENCES `Organizacion_Departamento` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=744 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  CONSTRAINT `FK_5FED3BEAD254FE13` FOREIGN KEY (`Departamento_id`) REFERENCES `Rrhh_Departamento` (`id`),
+  CONSTRAINT `FK_5FED3BEAF98ABA7B` FOREIGN KEY (`DepartamentoParte_id`) REFERENCES `Rrhh_Departamento` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=48481 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3123,7 +3083,7 @@ CREATE TABLE `Rrhh_AgenteAntiguedad` (
   PRIMARY KEY (`id`),
   KEY `IDX_205769EC8714FA3C` (`Agente_id`),
   CONSTRAINT `FK_205769EC8714FA3C` FOREIGN KEY (`Agente_id`) REFERENCES `Rrhh_Agente` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=251 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3194,7 +3154,7 @@ CREATE TABLE `Rrhh_AgenteCargoMovim` (
   KEY `IDX_D153D026784CA1D6` (`Cargo_id`),
   CONSTRAINT `FK_D153D026784CA1D6` FOREIGN KEY (`Cargo_id`) REFERENCES `Rrhh_Cargo` (`id`),
   CONSTRAINT `FK_D153D0268714FA3C` FOREIGN KEY (`Agente_id`) REFERENCES `Rrhh_Agente` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=303 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3227,7 +3187,7 @@ CREATE TABLE `Rrhh_AgenteCategoriaMovim` (
   KEY `IDX_AEE85BE38714FA3C` (`Agente_id`),
   KEY `Rrhh_AgenteCategoriaMovim_Agente_Categoria_Fecha_ACargo` (`Agente_id`,`Categoria`,`Fecha`,`ACargo`),
   CONSTRAINT `FK_AEE85BE38714FA3C` FOREIGN KEY (`Agente_id`) REFERENCES `Rrhh_Agente` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=239 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3266,7 +3226,7 @@ CREATE TABLE `Rrhh_AgenteFamiliar` (
   KEY `IDX_DBAF304F8714FA3C` (`Agente_id`),
   KEY `Rrhh_AgenteFamiliar_AgenteDocumentoNumero` (`Agente_id`,`DocumentoNumero`),
   CONSTRAINT `FK_DBAF304F8714FA3C` FOREIGN KEY (`Agente_id`) REFERENCES `Rrhh_Agente` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=177 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3332,6 +3292,7 @@ CREATE TABLE `Rrhh_AgenteInasistencia` (
   `updatedAt` datetime DEFAULT NULL,
   `Agente_id` int(11) NOT NULL,
   `Licencia_id` int(11) NOT NULL,
+  `FechaCorte` date DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_290FFB7CBC93D5F4` (`Licencia_id`),
   KEY `Rrhh_AgenteInasistencia_Agente` (`Agente_id`),
@@ -3340,7 +3301,7 @@ CREATE TABLE `Rrhh_AgenteInasistencia` (
   KEY `Rrhh_AgenteInasistencia_Agente_L_AL_FD_FH_E` (`Agente_id`,`Licencia_id`,`AnioLicencia`,`FechaDesde`,`FechaHasta`,`Estado`),
   CONSTRAINT `FK_290FFB7C8714FA3C` FOREIGN KEY (`Agente_id`) REFERENCES `Rrhh_Agente` (`id`),
   CONSTRAINT `FK_290FFB7CBC93D5F4` FOREIGN KEY (`Licencia_id`) REFERENCES `Rrhh_Licencia` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=549 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3350,6 +3311,38 @@ CREATE TABLE `Rrhh_AgenteInasistencia` (
 LOCK TABLES `Rrhh_AgenteInasistencia` WRITE;
 /*!40000 ALTER TABLE `Rrhh_AgenteInasistencia` DISABLE KEYS */;
 /*!40000 ALTER TABLE `Rrhh_AgenteInasistencia` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Rrhh_AgenteRelojMovim`
+--
+
+DROP TABLE IF EXISTS `Rrhh_AgenteRelojMovim`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Rrhh_AgenteRelojMovim` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `Fecha` datetime NOT NULL,
+  `Tipo` smallint(6) NOT NULL,
+  `Obs` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `Agente_id` int(11) DEFAULT NULL,
+  `Reloj_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `FechaAgenteReloj` (`Fecha`,`Agente_id`,`Reloj_id`),
+  KEY `IDX_4EC097318714FA3C` (`Agente_id`),
+  KEY `IDX_4EC097312606C68` (`Reloj_id`),
+  CONSTRAINT `FK_4EC097312606C68` FOREIGN KEY (`Reloj_id`) REFERENCES `Rrhh_Reloj` (`id`),
+  CONSTRAINT `FK_4EC097318714FA3C` FOREIGN KEY (`Agente_id`) REFERENCES `Rrhh_Agente` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=923 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Rrhh_AgenteRelojMovim`
+--
+
+LOCK TABLES `Rrhh_AgenteRelojMovim` WRITE;
+/*!40000 ALTER TABLE `Rrhh_AgenteRelojMovim` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Rrhh_AgenteRelojMovim` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -3395,7 +3388,7 @@ CREATE TABLE `Rrhh_Cargo` (
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3404,7 +3397,87 @@ CREATE TABLE `Rrhh_Cargo` (
 
 LOCK TABLES `Rrhh_Cargo` WRITE;
 /*!40000 ALTER TABLE `Rrhh_Cargo` DISABLE KEYS */;
+INSERT INTO `Rrhh_Cargo` VALUES (1,'Director general',NULL,1,0,'2015-07-10 12:48:59','2015-07-10 12:48:59'),(2,'Director',NULL,1,0,'2015-07-10 12:49:04','2015-07-10 12:49:04'),(3,'Coordinador',NULL,1,0,'2015-07-10 12:49:10','2015-07-10 12:49:10'),(4,'Jefe de departamento',NULL,1,0,'2015-07-10 12:49:15','2015-07-10 12:49:15'),(5,'Jefe de división',NULL,1,0,'2015-07-10 12:49:21','2015-07-10 12:49:21'),(6,'Asesor gabinete (35%)',NULL,1,0,'2015-07-10 12:49:51','2015-07-10 12:49:51'),(7,'Asesor gabinete (30%)',NULL,1,0,'2015-07-10 12:50:02','2015-07-10 12:50:02'),(8,'Secretario privado (30%)',NULL,1,0,'2015-07-10 12:50:12','2015-07-10 12:50:12'),(9,'Secretario privado (20%)',NULL,1,0,'2015-07-10 12:50:20','2015-07-10 12:50:20'),(10,'Secretario administrativo (30%)',NULL,1,0,'2015-07-10 12:50:35','2015-07-10 12:50:35'),(11,'Secretario administrativo (20%)',NULL,1,0,'2015-07-10 12:50:41','2015-07-10 12:50:41'),(12,'Capataz, encargado, supervisor',NULL,1,0,'2015-07-10 12:50:56','2015-07-10 12:50:56'),(13,'Secretario municipal',NULL,1,0,'2015-07-10 12:51:03','2015-07-10 12:51:03'),(14,'Subsecretario',NULL,1,0,'2015-07-10 12:51:08','2015-07-10 12:51:08'),(15,'Concejal',NULL,1,0,'2015-07-10 12:51:14','2015-07-10 12:51:14'),(16,'Auditor',NULL,1,0,'2015-07-10 12:51:18','2015-07-10 12:51:18');
 /*!40000 ALTER TABLE `Rrhh_Cargo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Rrhh_Contrato`
+--
+
+DROP TABLE IF EXISTS `Rrhh_Contrato`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Rrhh_Contrato` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `FechaAlta` date NOT NULL,
+  `FechaBaja` date NOT NULL,
+  `Agente_id` int(11) DEFAULT NULL,
+  `Departamento_id` int(11) DEFAULT NULL,
+  `ConvenioOsm` tinyint(1) NOT NULL,
+  `Monto` double NOT NULL,
+  `Snapshot` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
+  `createdAt` datetime DEFAULT NULL,
+  `updatedAt` datetime DEFAULT NULL,
+  `Invalida` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_D122BE918714FA3C` (`Agente_id`),
+  KEY `IDX_D122BE91D254FE13` (`Departamento_id`),
+  CONSTRAINT `FK_D122BE918714FA3C` FOREIGN KEY (`Agente_id`) REFERENCES `Rrhh_Agente` (`id`),
+  CONSTRAINT `FK_D122BE91D254FE13` FOREIGN KEY (`Departamento_id`) REFERENCES `Rrhh_Departamento` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2816 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Rrhh_Contrato`
+--
+
+LOCK TABLES `Rrhh_Contrato` WRITE;
+/*!40000 ALTER TABLE `Rrhh_Contrato` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Rrhh_Contrato` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Rrhh_Departamento`
+--
+
+DROP TABLE IF EXISTS `Rrhh_Departamento`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Rrhh_Departamento` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `Rango` int(11) DEFAULT NULL,
+  `Codigo` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `NombreOriginal` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `NombreCorto` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `HaceParteDiario` tinyint(1) NOT NULL,
+  `CodigoPayroll` int(11) NOT NULL,
+  `Secretaria` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `Direccion` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `Nombre` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `Version` int(11) NOT NULL DEFAULT 1,
+  `Suprimido` tinyint(1) NOT NULL,
+  `ImportSrc` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ImportId` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ImportedAt` datetime DEFAULT NULL,
+  `MaterializedPath` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `createdAt` datetime DEFAULT NULL,
+  `updatedAt` datetime DEFAULT NULL,
+  `ParentNode_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ImportSrcId` (`ImportSrc`,`ImportId`),
+  KEY `Rrhh_Departamento_ParentNode_id` (`ParentNode_id`),
+  CONSTRAINT `FK_30CB7BCA8CEEC9FB` FOREIGN KEY (`ParentNode_id`) REFERENCES `Rrhh_Departamento` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=45285 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Rrhh_Departamento`
+--
+
+LOCK TABLES `Rrhh_Departamento` WRITE;
+/*!40000 ALTER TABLE `Rrhh_Departamento` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Rrhh_Departamento` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -3417,24 +3490,25 @@ DROP TABLE IF EXISTS `Rrhh_EvaluacionDesempeno`;
 CREATE TABLE `Rrhh_EvaluacionDesempeno` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `Periodo` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `PuntResponsabilidad` int(11) NOT NULL,
-  `PuntConocimientos` int(11) NOT NULL,
-  `PuntResultados` int(11) NOT NULL,
-  `PuntCalidad` int(11) NOT NULL,
-  `PuntIniciativa` int(11) NOT NULL,
-  `PuntCriterio` int(11) NOT NULL,
-  `PuntPuntualidad` int(11) NOT NULL,
+  `PuntResponsabilidad` int(11) DEFAULT NULL,
+  `PuntConocimientos` int(11) DEFAULT NULL,
+  `PuntResultados` int(11) DEFAULT NULL,
+  `PuntCalidad` int(11) DEFAULT NULL,
+  `PuntIniciativa` int(11) DEFAULT NULL,
+  `PuntCriterio` int(11) DEFAULT NULL,
+  `PuntPuntualidad` int(11) DEFAULT NULL,
   `Sumatoria` int(11) NOT NULL,
-  `Obs` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   `Version` int(11) NOT NULL DEFAULT 1,
   `Suprimido` tinyint(1) NOT NULL,
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
   `Agente_id` int(11) DEFAULT NULL,
+  `ImportadoDeGestion` tinyint(1) NOT NULL,
+  `Obs` longtext COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_D02FF1328714FA3C` (`Agente_id`),
   CONSTRAINT `FK_D02FF1328714FA3C` FOREIGN KEY (`Agente_id`) REFERENCES `Rrhh_Agente` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7101 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3492,7 +3566,7 @@ CREATE TABLE `Rrhh_Licencia` (
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=195 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4716 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3526,8 +3600,8 @@ CREATE TABLE `Rrhh_Parte` (
   KEY `Rrhh_Parte_Departamento_Fecha_Hora` (`Departamento_id`,`Fecha`,`Hora`),
   KEY `Rrhh_Parte_Fecha_Hora` (`Fecha`,`Hora`),
   KEY `Rrhh_Parte_Fecha_Departamento` (`Fecha`,`Departamento_id`),
-  CONSTRAINT `FK_5CC61C48D254FE13` FOREIGN KEY (`Departamento_id`) REFERENCES `Organizacion_Departamento` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=386 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  CONSTRAINT `FK_5CC61C48D254FE13` FOREIGN KEY (`Departamento_id`) REFERENCES `Rrhh_Departamento` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10488 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3562,12 +3636,12 @@ CREATE TABLE `Rrhh_ParteDetalle` (
   KEY `IDX_ABFA1133745F9C97` (`Inasistencia_id`),
   KEY `Rrhh_ParteDetalle_Parte_Agente` (`Parte_id`,`Agente_id`),
   KEY `IDX_ABFA11336A79196F` (`InasistenciaJustificacion_id`),
-  CONSTRAINT `FK_ABFA11336A79196F` FOREIGN KEY (`InasistenciaJustificacion_id`) REFERENCES `Rrhh_AgenteInasistencia` (`id`),
-  CONSTRAINT `FK_ABFA1133745F9C97` FOREIGN KEY (`Inasistencia_id`) REFERENCES `Rrhh_AgenteInasistencia` (`id`),
+  CONSTRAINT `FK_ABFA11336A79196F` FOREIGN KEY (`InasistenciaJustificacion_id`) REFERENCES `Rrhh_AgenteInasistencia` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `FK_ABFA1133745F9C97` FOREIGN KEY (`Inasistencia_id`) REFERENCES `Rrhh_AgenteInasistencia` (`id`) ON DELETE SET NULL,
   CONSTRAINT `FK_ABFA11338714FA3C` FOREIGN KEY (`Agente_id`) REFERENCES `Rrhh_Agente` (`id`),
-  CONSTRAINT `FK_ABFA1133BC93D5F4` FOREIGN KEY (`Licencia_id`) REFERENCES `Rrhh_Licencia` (`id`),
+  CONSTRAINT `FK_ABFA1133BC93D5F4` FOREIGN KEY (`Licencia_id`) REFERENCES `Rrhh_Licencia` (`id`) ON DELETE SET NULL,
   CONSTRAINT `FK_ABFA1133C2859A28` FOREIGN KEY (`Parte_id`) REFERENCES `Rrhh_Parte` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=702 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18453 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3596,7 +3670,7 @@ CREATE TABLE `Rrhh_Reloj` (
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=923 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3689,7 +3763,7 @@ CREATE TABLE `SeguridadHigiene_Matriculado` (
   UNIQUE KEY `Persona_id` (`Persona_id`),
   KEY `SeguridadHigiene_Matriculado_NumeroMatricula` (`NumeroMatricula`),
   CONSTRAINT `FK_B8142D6BBAA58E69` FOREIGN KEY (`Persona_id`) REFERENCES `Base_Persona` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2791 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3922,7 +3996,7 @@ CREATE TABLE `Tramites_Requisito` (
   KEY `IDX_4F4B7F32D254FE13` (`Departamento_id`),
   KEY `IDX_4F4B7F321890874D` (`TramiteTipoEspejo_id`),
   CONSTRAINT `FK_4F4B7F321890874D` FOREIGN KEY (`TramiteTipoEspejo_id`) REFERENCES `Tramites_TramiteTipo` (`id`),
-  CONSTRAINT `FK_4F4B7F32D254FE13` FOREIGN KEY (`Departamento_id`) REFERENCES `Organizacion_Departamento` (`id`)
+  CONSTRAINT `FK_4F4B7F32D254FE13` FOREIGN KEY (`Departamento_id`) REFERENCES `Rrhh_Departamento` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -4020,7 +4094,7 @@ CREATE TABLE `Tramites_Tramite` (
   CONSTRAINT `FK_42011F95B6ADFCB4` FOREIGN KEY (`Titular_id`) REFERENCES `Base_Persona` (`id`),
   CONSTRAINT `FK_42011F95E80253E2` FOREIGN KEY (`Comprobante_id`) REFERENCES `Tramites_Comprobante` (`id`),
   CONSTRAINT `FK_42011F95FE4394E4` FOREIGN KEY (`TramiteTipo_id`) REFERENCES `Tramites_TramiteTipo` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=167 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4086,7 +4160,7 @@ CREATE TABLE `Tramites_TramiteTipo` (
   KEY `IDX_CC32565F9B606347` (`RolPrincipal_id`),
   CONSTRAINT `FK_CC32565F9B606347` FOREIGN KEY (`RolPrincipal_id`) REFERENCES `Base_PersonaRol` (`id`),
   CONSTRAINT `FK_CC32565FC20D5041` FOREIGN KEY (`ComprobanteTipo_id`) REFERENCES `Tramites_ComprobanteTipo` (`id`),
-  CONSTRAINT `FK_CC32565FD254FE13` FOREIGN KEY (`Departamento_id`) REFERENCES `Organizacion_Departamento` (`id`),
+  CONSTRAINT `FK_CC32565FD254FE13` FOREIGN KEY (`Departamento_id`) REFERENCES `Rrhh_Departamento` (`id`),
   CONSTRAINT `FK_CC32565FE06A37CF` FOREIGN KEY (`RequisitoEspejo_id`) REFERENCES `Tramites_Requisito` (`id`),
   CONSTRAINT `FK_CC32565FF2B1A9C1` FOREIGN KEY (`Formulario_id`) REFERENCES `Tramites_Instrumento` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -4098,7 +4172,7 @@ CREATE TABLE `Tramites_TramiteTipo` (
 
 LOCK TABLES `Tramites_TramiteTipo` WRITE;
 /*!40000 ALTER TABLE `Tramites_TramiteTipo` DISABLE KEYS */;
-INSERT INTO `Tramites_TramiteTipo` VALUES (1,'\\Yacare\\ComercioBundle\\Entity\\TramiteHabilitacion','Habilitación','<p>Es necesario obtener un Certificado de Habilitaci&oacute;n Comercial para el ejercicio de actividades comerciales dentro de los l&iacute;mites de la ciudad.</p>','http://www.riogrande.gob.ar/tramites/guia-de-tramites/habilitacioncomercial/',14,'2015-07-22 11:19:37','2017-03-13 10:08:37',1,NULL,1,'','Provisorio,Final',1254,37),(2,'\\Yacare\\ObrasParticularesBundle\\Entity\\TramiteCatEd','Certificado de Aptitud Edilicia','<p>Deber&aacute; obtener un&nbsp;Certificado de Aptitud Edilicia del local donde se realizar&aacute; una actividad comercial.</p>',NULL,8,'2015-07-22 11:58:54','2016-09-22 09:44:34',2,NULL,9,NULL,'Provisorio,Final',1348,NULL),(3,'\\Yacare\\BromatologiaBundle\\Entity\\TramiteCatBr','Certificado de Aptitud Bromatológica',NULL,NULL,8,'2015-07-23 16:00:45','2016-06-06 15:43:43',3,NULL,13,NULL,NULL,1975,NULL),(4,'\\Yacare\\EcologiaBundle\\Entity\\TramiteCatEc','Certificado de Aptitud Ecológica',NULL,NULL,8,'2015-11-04 09:32:24','2016-09-22 09:55:03',4,NULL,49,NULL,'Provisorio,Final',1396,NULL),(5,'\\Yacare\\ObrasParticularesBundle\\Entity\\TramitePlano','Aprobación de Planos',NULL,'http://www.riogrande.gob.ar/tramites/guia-de-tramites/aprobacion-de-planos/',7,'2015-11-13 11:40:14','2016-02-22 13:21:38',NULL,NULL,52,NULL,'Inicio de obra,Final',1348,18),(6,'\\Yacare\\ObrasSanitariasBundle\\Entity\\TramiteCatSa','Certificado de Aptitud Sanitaria',NULL,NULL,7,'2016-03-10 10:33:59','2016-09-22 09:40:55',5,NULL,85,NULL,'Provisorio,Final',1352,NULL),(7,'\\Yacare\\SeguridadHigieneBundle\\Entity\\TramiteCatSeg','Certificado de Aptitud Seguridad e Higiene',NULL,NULL,2,'2016-08-02 10:37:22','2016-08-03 12:18:11',6,NULL,136,NULL,'Provisorio,Final',1973,NULL);
+INSERT INTO `Tramites_TramiteTipo` VALUES (1,'\\Yacare\\ComercioBundle\\Entity\\TramiteHabilitacion','Habilitación','<p>Es necesario obtener un Certificado de Habilitaci&oacute;n Comercial para el ejercicio de actividades comerciales dentro de los l&iacute;mites de la ciudad.</p>','http://www.riogrande.gob.ar/tramites/guia-de-tramites/habilitacioncomercial/',14,'2015-07-22 11:19:37','2017-03-13 10:08:37',1,NULL,1,'','Provisorio,Final',NULL,37),(2,'\\Yacare\\ObrasParticularesBundle\\Entity\\TramiteCatEd','Certificado de Aptitud Edilicia','<p>Deber&aacute; obtener un&nbsp;Certificado de Aptitud Edilicia del local donde se realizar&aacute; una actividad comercial.</p>',NULL,8,'2015-07-22 11:58:54','2016-09-22 09:44:34',2,NULL,9,NULL,'Provisorio,Final',NULL,NULL),(3,'\\Yacare\\BromatologiaBundle\\Entity\\TramiteCatBr','Certificado de Aptitud Bromatológica',NULL,NULL,8,'2015-07-23 16:00:45','2016-06-06 15:43:43',3,NULL,13,NULL,NULL,NULL,NULL),(4,'\\Yacare\\EcologiaBundle\\Entity\\TramiteCatEc','Certificado de Aptitud Ecológica',NULL,NULL,8,'2015-11-04 09:32:24','2016-09-22 09:55:03',4,NULL,49,NULL,'Provisorio,Final',NULL,NULL),(5,'\\Yacare\\ObrasParticularesBundle\\Entity\\TramitePlano','Aprobación de Planos',NULL,'http://www.riogrande.gob.ar/tramites/guia-de-tramites/aprobacion-de-planos/',7,'2015-11-13 11:40:14','2016-02-22 13:21:38',NULL,NULL,52,NULL,'Inicio de obra,Final',NULL,18),(6,'\\Yacare\\ObrasSanitariasBundle\\Entity\\TramiteCatSa','Certificado de Aptitud Sanitaria',NULL,NULL,7,'2016-03-10 10:33:59','2016-09-22 09:40:55',5,NULL,85,NULL,'Provisorio,Final',NULL,NULL),(7,'\\Yacare\\SeguridadHigieneBundle\\Entity\\TramiteCatSeg','Certificado de Aptitud Seguridad e Higiene',NULL,NULL,2,'2016-08-02 10:37:22','2016-08-03 12:18:11',6,NULL,136,NULL,'Provisorio,Final',NULL,NULL);
 /*!40000 ALTER TABLE `Tramites_TramiteTipo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4193,7 +4267,7 @@ CREATE TABLE `Transporte_LicenciaConducir` (
   UNIQUE KEY `UNIQ_60CE62D6BAA58E69` (`Persona_id`),
   KEY `IDX_60CE62D6D254FE13` (`Departamento_id`),
   CONSTRAINT `FK_60CE62D6BAA58E69` FOREIGN KEY (`Persona_id`) REFERENCES `Base_Persona` (`id`),
-  CONSTRAINT `FK_60CE62D6D254FE13` FOREIGN KEY (`Departamento_id`) REFERENCES `Organizacion_Departamento` (`id`)
+  CONSTRAINT `FK_60CE62D6D254FE13` FOREIGN KEY (`Departamento_id`) REFERENCES `Rrhh_Departamento` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -4503,4 +4577,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-22 16:37:20
+-- Dump completed on 2018-03-20 10:43:09
