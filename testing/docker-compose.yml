@@ -1,12 +1,11 @@
 version: '3.1'
 services:
   yacare:
-    image: carlosafrias/yacare:testing
+    image: munirg/yacare:testing
     volumes:
-      - ../yacare/:/home/test/yacare/
-      - composer-cache:/home/test/.composer/cache/files
+      - ../yacare/:/root/yacare/
+      - composer-cache:/root/.composer/cache/files
     tty: true
-    user: test
     depends_on:
       - db
     environment:

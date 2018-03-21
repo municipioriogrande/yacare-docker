@@ -1,7 +1,7 @@
 #!/bin/bash
 
-cd /home/test/yacare
-cp -f /home/test/parameters.yml app/config
+cd /root/yacare
+cp /root/parameters.yml /root/yacare/app/config/
 composer install
 php bin/console doctrine:schema:update --force --env=test
 

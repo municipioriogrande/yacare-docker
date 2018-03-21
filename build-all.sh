@@ -2,7 +2,7 @@
 clear
 if [ -z "$1" ]
     then
-        NAMESPACE="carlosafrias"
+        NAMESPACE="munirg"
     else
         NAMESPACE=$1
 fi

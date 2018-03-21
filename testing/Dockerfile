@@ -7,23 +7,14 @@ RUN sed -i -e '/max_execution_time = /s/30/6000/g' /etc/php.ini
 RUN sed -i -e '/max_input_time = /s/60/12000/g' /etc/php.ini
 RUN sed -i -e '/memory_limit = /s/128M/2048M/g' /etc/php.ini
 
-# This allows to remove whatever folder has been created within de container from the host, after container
-# has run tests.
-RUN groupadd docker
-RUN adduser -g docker test
-USER test
-
-# Create folder for caching composer files
-RUN mkdir /home/test/.composer && \
-    mkdir /home/test/.composer/cache && \
-    mkdir /home/test/.composer/cache/files
-
 # Copy parameters.yml
-COPY data/parameters.yml /home/test/
+COPY data/parameters.yml /root
 
 # Run entrypoint script
-COPY entry-point.sh /home/test
-ENTRYPOINT ["sh", "/home/test/entry-point.sh", "--"]
+ENV COMPOSER_ALLOW_SUPERUSER 1
+RUN mkdir /root/yacare
+COPY entry-point.sh /root
+ENTRYPOINT ["sh", "/root/entry-point.sh", "--"]
 
 EXPOSE 8000
 
