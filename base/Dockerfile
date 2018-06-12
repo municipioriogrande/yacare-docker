@@ -3,13 +3,14 @@ FROM centos:7
 LABEL maintainer="Carlos Frias <carlos.a.frias@gmail.com>"
 
 # Install Remi, EPEL repos and yum-utils
-RUN yum install -y \
-    https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
-    http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+RUN yum install -y wget && \
+    wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
+    wget http://rpms.remirepo.net/enterprise/remi-release-7.rpm && \
+    rpm -Uvh remi-release-7.rpm epel-release-latest-7.noarch.rpm
 
 # Install and configure yum-utils
 RUN yum install -y yum-utils && \
-    yum-config-manager --enable remi-php71
+    yum-config-manager --enable remi-php72
 
 # Install misc dependencies
 RUN yum install -y unzip

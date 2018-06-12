@@ -1,5 +1,5 @@
 # Contains all dependencies needed to run Yacare.
-FROM carlosafrias/yacare:base
+FROM munirg/yacare:base
 LABEL maintainer="Carlos Frias <carlos.a.frias@gmail.com>"
 
 # Configure PHP to allocate more memory and longer execution time
