@@ -17,7 +17,7 @@ parameters:
     secret: '%env(YACARE_SECRET)%'
     tapir.cliente: 'Municipio de Río Grande'
     tapir.cliente.extra: null
-    tapir.eslogan: '2017 - Anio Energias renovadas'
+    tapir.eslogan: '2020 - Año del General Manual Belgrano'
     munirg_ldap_contrasena: '%env(MUNIRG_LDAP_CONTRASENA)%'
     munirg_ldap_servidor: '%env(MUNIRG_LDAP_SERVIDOR)%'
     munirg_dbmunirg_host: '%env(MUNIRG_DBMUNIRG_HOST)%'
