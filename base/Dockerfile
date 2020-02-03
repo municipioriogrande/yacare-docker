@@ -1,6 +1,6 @@
 # Contains all dependencies needed to run Yacare everywhere.
 FROM centos:7
-LABEL maintainer="Carlos Frias <carlos.a.frias@gmail.com>"
+LABEL maintainer="Municipio Río Grande <tic.desarrollo@riogrande.gob.ar>"
 
 # Install Remi, EPEL repos and yum-utils
 RUN yum install -y wget && \
@@ -10,7 +10,7 @@ RUN yum install -y wget && \
 
 # Install and configure yum-utils
 RUN yum install -y yum-utils && \
-    yum-config-manager --enable remi-php72
+    yum-config-manager --enable remi-php74
 
 # Install misc dependencies
 RUN yum install -y unzip

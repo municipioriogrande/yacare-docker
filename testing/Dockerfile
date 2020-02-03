@@ -1,6 +1,6 @@
 # Contains all dependencies needed to run Yacare.
 FROM munirg/yacare:base
-LABEL maintainer="Carlos Frias <carlos.a.frias@gmail.com>"
+LABEL maintainer="Municipio Río Grande <tic.desarrollo@riogrande.gob.ar>"
 
 # Configure PHP to allocate more memory and longer execution time
 RUN sed -i -e '/max_execution_time = /s/30/6000/g' /etc/php.ini
