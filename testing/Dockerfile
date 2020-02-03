@@ -13,6 +13,7 @@ COPY data/parameters.yml /root
 # Run entrypoint script
 ENV COMPOSER_ALLOW_SUPERUSER 1
 RUN mkdir /root/yacare
+COPY data/.env.test /root/yacare
 COPY entry-point.sh /root
 ENTRYPOINT ["sh", "/root/entry-point.sh", "--"]
 
