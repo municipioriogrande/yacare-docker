@@ -16,7 +16,7 @@ RUN yum install -y yum-utils && \
 RUN yum install -y unzip
 
 # Install Oracle client
-RUN curl https://s3-sa-east-1.amazonaws.com/munirg-yacare/oracle-instantclient.rpm --output /oracle-instantclient.rpm && \
+RUN curl https://download.oracle.com/otn_software/linux/instantclient/oracle-instantclient-basic-linuxx64.rpm --output /oracle-instantclient.rpm && \
     yum install -y /oracle-instantclient.rpm
 ENV LD_LIBRARY_PATH /usr/lib/oracle/12.2/client64/lib
 
