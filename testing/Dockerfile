@@ -9,11 +9,11 @@ RUN sed -i -e '/memory_limit = /s/128M/2048M/g' /etc/php.ini
 
 # Copy parameters.yml
 COPY data/parameters.yml /root
+COPY data/.env.test /root
 
 # Run entrypoint script
 ENV COMPOSER_ALLOW_SUPERUSER 1
 RUN mkdir /root/yacare
-COPY data/.env.test /root/yacare
 COPY entry-point.sh /root
 ENTRYPOINT ["sh", "/root/entry-point.sh", "--"]
 
