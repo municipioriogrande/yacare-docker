@@ -1,9 +1,9 @@
-# Yacare Docker Images
+# Yacaré Docker Images
 
-Este repo contiene lo necesario para generar las imagenes de Docker para el proyecto [Yacare](https://github.com/municipioriogrande/yacare).
+Este repo contiene lo necesario para generar las imágenes de Docker para el proyecto [Yacaré](https://github.com/municipioriogrande/yacare).
 
-## Importante!
+## ¡Importante!
 
-Existe una carpeta por cada entorno en el que se desea correr Yacare, con las configuraciones correspondientes al mismo.
+Existe una carpeta por cada entorno en el que se desea correr Yacaré, con las configuraciones correspondientes al mismo.
 
-Dentro de la carpeta `base/` se encuentra la imagen base con las dependencias compartidas entre todas las imagenes. Todas las demas imagenes se construyen a partir de esta. La imagen base no esta pensada para ser utilizada directamente por ello no con las directivas *ENTRYPOINT* ni con *CMD*.
+Dentro de la carpeta `base/` se encuentra la imagen base con las dependencias compartidas entre todas las imágenes. Todas las demás imágenes se construyen a partir de ésta. La imagen base no está pensada para ser utilizada directamente por ello no con las directivas *ENTRYPOINT* ni con *CMD*.
