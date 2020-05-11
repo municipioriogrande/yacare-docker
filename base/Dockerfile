@@ -15,6 +15,11 @@ RUN yum install -y yum-utils && \
 # Install misc dependencies
 RUN yum install -y unzip
 
+# Install git
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y git
+
 # Install Oracle client
 RUN curl https://download.oracle.com/otn_software/linux/instantclient/oracle-instantclient-basic-linuxx64.rpm --output /oracle-instantclient.rpm && \
     yum install -y /oracle-instantclient.rpm
