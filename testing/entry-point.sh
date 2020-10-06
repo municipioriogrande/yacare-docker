@@ -10,6 +10,7 @@ composer config --global github-oauth.github.com $GITHUB_TOKEN
 
 composer install --no-interaction
 php bin/console doctrine:schema:update --force --env=test
+php --info
 
 # Update codeception helpers
 php vendor/codeception/codeception/codecept build

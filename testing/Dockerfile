@@ -6,6 +6,7 @@ LABEL maintainer="Municipio Río Grande <tic.desarrollo@riogrande.gob.ar>"
 RUN sed -i -e '/max_execution_time = /s/30/6000/g' /etc/php.ini
 RUN sed -i -e '/max_input_time = /s/60/12000/g' /etc/php.ini
 RUN sed -i -e '/memory_limit = /s/128M/2048M/g' /etc/php.ini
+# RUN sed -i -e '/date.timezone = /s/128M/2048M/g' /etc/php.ini
 
 # Copy parameters.yml
 COPY data/parameters.yml /root
